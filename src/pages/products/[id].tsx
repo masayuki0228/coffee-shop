@@ -9,10 +9,17 @@ import { db } from "src/firebase";
 type Props = Product & MicroCMSContentId & MicroCMSDate;
 
 const ProductId: NextPage<Props> = (props) => {
+  const totalPrice = props.price + 300 + 300;
   const order = async () => {
     const docRef = await addDoc(collection(db, "orders"), {
       product_id: props.id,
       name: props.name,
+      price: {
+        totalPrice: totalPrice,
+        productPrice: props.price,
+        postage: 300,
+        commission: 300,
+      },
     });
     console.log("Document written with ID: ", docRef.id);
   };
