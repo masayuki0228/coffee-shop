@@ -3,6 +3,7 @@ import Link from "next/link";
 
 const NAV_ITEMS = [
   { href: "/", label: "Coffee Shop" },
+  { href: "/orders", label: "Orders" },
 ];
 
 export const Header = () => {
