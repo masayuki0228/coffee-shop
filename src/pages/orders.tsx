@@ -19,7 +19,7 @@ const Home: NextPage<any> = (props) => {
       <table className="m-6 table-auto">
         <thead>
           <tr>
-            <th className="border px-4 py-2">orderId</th>
+            <th className="border px-4 py-2">注文Id</th>
             <th className="border px-4 py-2">商品名</th>
             <th className="border px-4 py-2">価格</th>
             <th className="border px-4 py-2">購入日時</th>

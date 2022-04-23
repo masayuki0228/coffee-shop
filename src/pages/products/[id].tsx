@@ -5,6 +5,7 @@ import { client } from "src/libs/client";
 import { Product } from "src/pages";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "src/firebase";
+import Router from "next/router";
 
 type Props = Product & MicroCMSContentId & MicroCMSDate;
 
@@ -22,7 +23,14 @@ const ProductId: NextPage<Props> = (props) => {
       },
       timestamp: serverTimestamp(),
     });
-    console.log("Document written with ID: ", docRef.id);
+    Router.push({
+      pathname: `/purchsed/${docRef.id}`,
+      query: {
+        Id: docRef.id,
+        name: "aaa",
+        adress: "bbb",
+      },
+    });
   };
 
   return (
