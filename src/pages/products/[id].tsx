@@ -35,7 +35,7 @@ const ProductId: NextPage<Props> = (props) => {
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
-      <div className="grid grid-cols-2 gap-8 pt-16">
+      <div className="grid grid-cols-2 gap-8 pt-8">
         <div className="flex flex-col justify-start">
           <Image
             width={600}
@@ -46,18 +46,58 @@ const ProductId: NextPage<Props> = (props) => {
           />
         </div>
         <div className="flex flex-col">
-          <div className="flex flex-col gap-4">
+          <div className="flex flex-col">
             <h1 className="text-4xl font-bold capitalize">{props.name}</h1>
-            <h2 className="text-3xl">¥{props.price}から</h2>
-            <article dangerouslySetInnerHTML={{ __html: props.description }} />
-            <div className="my-6 flex cursor-pointer items-center gap-4 ">
-              <div
-                onClick={order}
-                className="w-2/4 bg-sky-500 px-5 py-3 text-center text-white"
-              >
-                購入する
-              </div>
-            </div>
+            <h2 className="mt-4 text-3xl">¥{props.price}から</h2>
+            <article
+              className="mt-4"
+              dangerouslySetInnerHTML={{ __html: props.description }}
+            />
+            <label className="mt-4" htmlFor="name">
+              お名前
+            </label>
+            <input
+              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+              type="text"
+              id="name"
+            />
+            <label className="mt-4" htmlFor="adress">
+              お届け先
+            </label>
+            <input
+              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+              type="text"
+              id="adress"
+            />
+
+            <label className="mt-4" htmlFor="send">
+              配送方法
+            </label>
+            <input
+              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+              id="send"
+              type="text"
+              value="宅急便 (￥300)"
+              readOnly
+            ></input>
+
+            <label className="mt-4" htmlFor="pay">
+              お支払い方法
+            </label>
+            <input
+              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+              id="pay"
+              type="text"
+              value="代金引換 (￥300)"
+              readOnly
+            ></input>
+
+            <button
+              onClick={order}
+              className="mt-4 w-2/4 bg-sky-500 px-5 py-3 text-center text-white"
+            >
+              購入する
+            </button>
           </div>
         </div>
       </div>
