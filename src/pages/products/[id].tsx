@@ -3,7 +3,7 @@ import { GetStaticPaths, GetStaticProps, NextPage } from "next";
 import Image from "next/image";
 import { client } from "src/libs/client";
 import { Product } from "src/pages";
-import { collection, addDoc } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "src/firebase";
 
 type Props = Product & MicroCMSContentId & MicroCMSDate;
@@ -20,6 +20,7 @@ const ProductId: NextPage<Props> = (props) => {
         postage: 300,
         commission: 300,
       },
+      timestamp: serverTimestamp(),
     });
     console.log("Document written with ID: ", docRef.id);
   };
