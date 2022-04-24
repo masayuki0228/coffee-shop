@@ -35,7 +35,7 @@ const ProductId: NextPage<Props> = (props) => {
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
-      <div className="grid grid-cols-2 gap-8 pt-8">
+      <div className="grid grid-cols-2 gap-8 pt-6">
         <div className="flex flex-col justify-start">
           <Image
             width={600}
@@ -48,12 +48,12 @@ const ProductId: NextPage<Props> = (props) => {
         <div className="flex flex-col">
           <div className="flex flex-col">
             <h1 className="text-4xl font-bold capitalize">{props.name}</h1>
-            <h2 className="mt-4 text-3xl">¥{props.price}から</h2>
+            <h2 className="mt-6 text-3xl">¥{props.price}から</h2>
             <article
-              className="mt-4"
+              className="mt-6"
               dangerouslySetInnerHTML={{ __html: props.description }}
             />
-            <label className="mt-4" htmlFor="name">
+            <label className="mt-6" htmlFor="name">
               お名前
             </label>
             <input
@@ -61,7 +61,7 @@ const ProductId: NextPage<Props> = (props) => {
               type="text"
               id="name"
             />
-            <label className="mt-4" htmlFor="adress">
+            <label className="mt-6" htmlFor="adress">
               お届け先
             </label>
             <input
@@ -70,31 +70,36 @@ const ProductId: NextPage<Props> = (props) => {
               id="adress"
             />
 
-            <label className="mt-4" htmlFor="send">
+            <label className="mt-6" htmlFor="send">
               配送方法
             </label>
             <input
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
               id="send"
               type="text"
-              value="宅急便 (￥300)"
+              value="宅急便 :¥300"
               readOnly
             ></input>
 
-            <label className="mt-4" htmlFor="pay">
+            <label className="mt-6" htmlFor="pay">
               お支払い方法
             </label>
             <input
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
               id="pay"
               type="text"
-              value="代金引換 (￥300)"
+              value="代金引換 : ¥300"
               readOnly
             ></input>
-
+            <div className="mt-6">
+              <p>小計 : ¥{props.price}</p>
+              <p>送料 : ¥300</p>
+              <p>手数料 : ¥300</p>
+              <p>合計 : ¥{totalPrice}</p>
+            </div>
             <button
               onClick={order}
-              className="mt-4 w-2/4 bg-sky-500 px-5 py-3 text-center text-white"
+              className="mt-8 w-2/4 bg-sky-500 px-5 py-3 text-center text-white"
             >
               購入する
             </button>
