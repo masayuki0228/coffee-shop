@@ -16,8 +16,6 @@ type Inputs = {
 };
 type Props = Product & MicroCMSContentId & MicroCMSDate;
 
-
-
 const ProductId: NextPage<Props> = (props) => {
   const {
     register,
@@ -28,8 +26,9 @@ const ProductId: NextPage<Props> = (props) => {
   const [name, setName] = useState("");
   const [address, setAddress] = useState("○○県○○市○○区○○町");
   const totalPrice = props.price + 300 + 300;
+
   const order = useCallback(async () => {
-    const docRef = await addDoc(collection(db, "orders"), {
+    const orderInfo = {
       productId: props.id,
       productName: props.name,
       userName: name,
@@ -41,17 +40,16 @@ const ProductId: NextPage<Props> = (props) => {
         commission: 300,
       },
       timestamp: serverTimestamp(),
-    });
+    };
+    const docRef = await addDoc(collection(db, "orders"), orderInfo);
     Router.push({
       pathname: `/purchsed/${docRef.id}`,
       query: {
-        Id: docRef.id,
-        name: "aaa",
-        adress: "bbb",
+        name: name,
+        adress: address,
       },
     });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [address, name, props.id, props.name, props.price, totalPrice]);
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
