@@ -6,31 +6,29 @@ import { Product } from "src/pages";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "src/firebase";
 import Router from "next/router";
-import { useState } from "react";
-import { useForm, SubmitHandler } from "react-hook-form";
+import { useCallback, useState } from "react";
+import { useForm } from "react-hook-form";
 import Head from "next/head";
 
 type Inputs = {
   userName: string;
   address: string;
 };
-
 type Props = Product & MicroCMSContentId & MicroCMSDate;
+
+
 
 const ProductId: NextPage<Props> = (props) => {
   const {
     register,
     handleSubmit,
-    watch,
     formState: { errors },
   } = useForm<Inputs>();
-  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
-  console.log(watch("userName")); // watch input value by passing the name of it
 
   const [name, setName] = useState("");
   const [address, setAddress] = useState("○○県○○市○○区○○町");
   const totalPrice = props.price + 300 + 300;
-  const order = async () => {
+  const order = useCallback(async () => {
     const docRef = await addDoc(collection(db, "orders"), {
       productId: props.id,
       productName: props.name,
@@ -52,8 +50,8 @@ const ProductId: NextPage<Props> = (props) => {
         adress: "bbb",
       },
     });
-  };
-  console.log(address);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
