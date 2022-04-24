@@ -5,7 +5,9 @@ import dayjs from "dayjs";
 
 export type Order = {
   id: string;
-  name: string;
+  productName: string;
+  userName: string;
+  address: string;
   price: {
     totalPrice: number;
   };
@@ -20,6 +22,8 @@ const Home: NextPage<any> = (props) => {
         <thead>
           <tr>
             <th className="border px-4 py-2">注文Id</th>
+            <th className="border px-4 py-2">お名前</th>
+            <th className="border px-4 py-2">お届け先</th>
             <th className="border px-4 py-2">商品名</th>
             <th className="border px-4 py-2">価格</th>
             <th className="border px-4 py-2">購入日時</th>
@@ -30,8 +34,10 @@ const Home: NextPage<any> = (props) => {
             <tbody key={order.id}>
               <tr>
                 <td className="border px-2 py-1">{order.id}</td>
-                <td className="border px-2 py-1">{order.name}</td>
-                <td className="border px-2 py-1">{order.price.totalPrice}</td>
+                <td className="border px-2 py-1">{order.userName}</td>
+                <td className="border px-2 py-1">{order.address}</td>
+                <td className="border px-2 py-1">{order.productName}</td>
+                <td className="border px-2 py-1">¥{order.price.totalPrice}</td>
                 <td className="border px-2 py-1">{order.date}</td>
               </tr>
             </tbody>
@@ -49,7 +55,9 @@ export const getStaticProps: GetStaticProps = async () => {
     const date = dayjs(doc.data().timestamp.toDate()).format("YYYY/MM/DD");
     const data = {
       id: doc.id,
-      name: doc.data().name,
+      userName: doc.data().userName,
+      address: doc.data().address,
+      productName: doc.data().productName,
       price: doc.data().price,
       date: date,
     };
