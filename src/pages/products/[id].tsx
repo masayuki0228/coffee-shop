@@ -6,15 +6,20 @@ import { Product } from "src/pages";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "src/firebase";
 import Router from "next/router";
+import { useState } from "react";
 
 type Props = Product & MicroCMSContentId & MicroCMSDate;
 
 const ProductId: NextPage<Props> = (props) => {
+  const [name, setName] = useState("");
+  const [address, setAddress] = useState("");
   const totalPrice = props.price + 300 + 300;
   const order = async () => {
     const docRef = await addDoc(collection(db, "orders"), {
-      product_id: props.id,
-      name: props.name,
+      productId: props.id,
+      productName: props.name,
+      userName: name,
+      address: address,
       price: {
         totalPrice: totalPrice,
         productPrice: props.price,
@@ -32,6 +37,7 @@ const ProductId: NextPage<Props> = (props) => {
       },
     });
   };
+  console.log(name);
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
@@ -58,6 +64,7 @@ const ProductId: NextPage<Props> = (props) => {
             </label>
             <input
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+              onChange={(e) => setName(e.target.value)}
               type="text"
               id="name"
             />
@@ -66,6 +73,7 @@ const ProductId: NextPage<Props> = (props) => {
             </label>
             <input
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+              onChange={(e) => setAddress(e.target.value)}
               type="text"
               id="adress"
             />
