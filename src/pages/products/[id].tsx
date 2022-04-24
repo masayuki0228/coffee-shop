@@ -12,7 +12,7 @@ type Props = Product & MicroCMSContentId & MicroCMSDate;
 
 const ProductId: NextPage<Props> = (props) => {
   const [name, setName] = useState("");
-  const [address, setAddress] = useState("");
+  const [address, setAddress] = useState("○○県○○市○○区○○町");
   const totalPrice = props.price + 300 + 300;
   const order = async () => {
     const docRef = await addDoc(collection(db, "orders"), {
@@ -37,7 +37,7 @@ const ProductId: NextPage<Props> = (props) => {
       },
     });
   };
-  console.log(name);
+  console.log(address);
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
@@ -74,6 +74,7 @@ const ProductId: NextPage<Props> = (props) => {
             <input
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
               onChange={(e) => setAddress(e.target.value)}
+              value={address}
               type="text"
               id="adress"
             />
