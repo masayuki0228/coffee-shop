@@ -7,10 +7,25 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "src/firebase";
 import Router from "next/router";
 import { useState } from "react";
+import { useForm, SubmitHandler } from "react-hook-form";
+
+type Inputs = {
+  userName: string;
+  address: string;
+};
 
 type Props = Product & MicroCMSContentId & MicroCMSDate;
 
 const ProductId: NextPage<Props> = (props) => {
+  const {
+    register,
+    handleSubmit,
+    watch,
+    formState: { errors },
+  } = useForm<Inputs>();
+  const onSubmit: SubmitHandler<Inputs> = (data) => console.log(data);
+  console.log(watch("userName")); // watch input value by passing the name of it
+
   const [name, setName] = useState("");
   const [address, setAddress] = useState("○○県○○市○○区○○町");
   const totalPrice = props.price + 300 + 300;
@@ -52,31 +67,45 @@ const ProductId: NextPage<Props> = (props) => {
           />
         </div>
         <div className="flex flex-col">
-          <div className="flex flex-col">
-            <h1 className="text-4xl font-bold capitalize">{props.name}</h1>
-            <h2 className="mt-6 text-3xl">¥{props.price}から</h2>
-            <article
-              className="mt-6"
-              dangerouslySetInnerHTML={{ __html: props.description }}
-            />
+          <h1 className="text-4xl font-bold capitalize">{props.name}</h1>
+          <h2 className="mt-6 text-3xl">¥{props.price}から</h2>
+          <article
+            className="mt-6"
+            dangerouslySetInnerHTML={{ __html: props.description }}
+          />
+
+          <form className="flex flex-col" onSubmit={handleSubmit(order)}>
             <label className="mt-6" htmlFor="name">
-              お名前
+              お名前{" "}
+              {errors.userName && (
+                <span className="text-sm text-red-400 ">
+                  ※お名前が未入力です。
+                </span>
+              )}
             </label>
             <input
+              {...register("userName", { required: true })}
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
               onChange={(e) => setName(e.target.value)}
               type="text"
               id="name"
             />
-            <label className="mt-6" htmlFor="adress">
-              お届け先
+
+            <label className="mt-6" htmlFor="name">
+              お届け先{" "}
+              {errors.address && (
+                <span className="text-sm text-red-400 ">
+                  ※お届け先が未入力です。
+                </span>
+              )}
             </label>
             <input
+              {...register("address", { required: true })}
               className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
               onChange={(e) => setAddress(e.target.value)}
               value={address}
               type="text"
-              id="adress"
+              id="address"
             />
 
             <label className="mt-6" htmlFor="send">
@@ -106,13 +135,12 @@ const ProductId: NextPage<Props> = (props) => {
               <p>手数料 : ¥300</p>
               <p>合計 : ¥{totalPrice}</p>
             </div>
-            <button
-              onClick={order}
-              className="mt-8 w-2/4 bg-sky-500 px-5 py-3 text-center text-white"
-            >
-              購入する
-            </button>
-          </div>
+            <input
+              type="submit"
+              className="mt-8 w-2/4 cursor-pointer bg-sky-500 px-5 py-3 text-center text-white"
+              value="購入する"
+            />
+          </form>
         </div>
       </div>
     </main>
