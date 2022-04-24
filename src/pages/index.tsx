@@ -1,5 +1,6 @@
 import { MicroCMSListResponse } from "microcms-js-sdk";
 import type { GetStaticProps, NextPage } from "next";
+import Head from "next/head";
 import Image from "next/image";
 import Link from "next/link";
 import { client } from "src/libs/client";
@@ -15,6 +16,9 @@ type Props = MicroCMSListResponse<Product>;
 const Home: NextPage<Props> = (props) => {
   return (
     <div className="container mx-auto p-4">
+      <Head>
+        <title>【Coffee Shop】 商品一覧</title>
+      </Head>
       <ul className="mt-6 grid grid-cols-1 gap-y-10 gap-x-6 sm:grid-cols-2 lg:grid-cols-4 xl:gap-x-8">
         {props.contents.map((content) => {
           return (

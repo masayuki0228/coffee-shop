@@ -2,6 +2,7 @@ import type { GetStaticProps, NextPage } from "next";
 import { collection, getDocs } from "firebase/firestore";
 import { db } from "src/firebase";
 import dayjs from "dayjs";
+import Head from "next/head";
 
 export type Order = {
   id: string;
@@ -18,6 +19,9 @@ const Home: NextPage<any> = (props) => {
   console.log(props.orders);
   return (
     <div className="mx-auto p-4">
+      <Head>
+        <title>【Coffee Shop】 注文一覧</title>
+      </Head>
       <table className="m-6 table-auto">
         <thead>
           <tr>

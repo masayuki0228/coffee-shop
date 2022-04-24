@@ -8,6 +8,7 @@ import { db } from "src/firebase";
 import Router from "next/router";
 import { useState } from "react";
 import { useForm, SubmitHandler } from "react-hook-form";
+import Head from "next/head";
 
 type Inputs = {
   userName: string;
@@ -56,6 +57,9 @@ const ProductId: NextPage<Props> = (props) => {
 
   return (
     <main className="flex h-full w-full items-center bg-white p-10">
+      <Head>
+        <title>【Coffee Shop】 商品詳細</title>
+      </Head>
       <div className="grid grid-cols-2 gap-8 pt-6">
         <div className="flex flex-col justify-start">
           <Image

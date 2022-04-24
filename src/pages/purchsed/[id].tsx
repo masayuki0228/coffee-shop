@@ -1,10 +1,14 @@
 import type { NextPage } from "next";
+import Head from "next/head";
 import { Router, useRouter } from "next/router";
 
 const Purchsed: NextPage = () => {
   const router = useRouter();
   return (
     <div className="container mx-auto p-12 text-center">
+      <Head>
+        <title>【Coffee Shop】 Thank you!!!</title>
+      </Head>
       <p>ご購入ありがとうございました！</p>
       <p>注文ID : {router.query.id}</p>
       <p>お名前 : {router.query.name}</p>
