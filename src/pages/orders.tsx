@@ -67,7 +67,7 @@ export const getStaticProps: GetStaticProps = async () => {
     };
     orders.push(data);
   });
-  return { props: { orders } };
+  return { props: { orders }, revalidate: 1 };
 };
 
 export default Home;
