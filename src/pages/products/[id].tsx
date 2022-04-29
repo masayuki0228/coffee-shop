@@ -56,7 +56,7 @@ const ProductId: NextPage<Props> = (props) => {
       <Head>
         <title>【Coffee Shop】 商品詳細</title>
       </Head>
-      <div className="grid grid-cols-2 gap-8 pt-6">
+      <div className="grid grid-cols-1 gap-8 pt-6 md:grid-cols-2">
         <div className="flex flex-col justify-start">
           <Image
             width={600}
