@@ -1,12 +1,16 @@
 import dayjs from "dayjs";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "src/firebase";
 import { Order } from "src/pages/test";
 import useSWR from "swr";
 
 const fetcher: (url: string) => Promise<any> = async (url) => {
   const orders: Order[] = [];
-  const querySnapshot = await getDocs(collection(db, "orders"));
+  const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+  // "desc"で昇順、降順を切り替え
+  const querySnapshot = await getDocs(q);
+  console.log(querySnapshot);
+
   querySnapshot.docs.map((doc) => {
     const date = dayjs(doc.data().timestamp.toDate()).format("YYYY/MM/DD");
     const data = {
