@@ -1,5 +1,5 @@
 import type { GetStaticProps, NextPage } from "next";
-import { collection, getDocs } from "firebase/firestore";
+import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "src/firebase";
 import dayjs from "dayjs";
 import Head from "next/head";
@@ -54,7 +54,9 @@ const Home: NextPage<any> = (props) => {
 
 export const getStaticProps: GetStaticProps = async () => {
   const orders: Order[] = [];
-  const querySnapshot = await getDocs(collection(db, "orders"));
+  const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+  // "desc"で昇順、降順を切り替え
+  const querySnapshot = await getDocs(q);
   querySnapshot.docs.map((doc) => {
     const date = dayjs(doc.data().timestamp.toDate()).format("YYYY/MM/DD");
     const data = {
