@@ -5,19 +5,40 @@ import dayjs from "dayjs";
 import Head from "next/head";
 import { OrdersTable } from "src/components/ordersTable";
 import { Order } from "src/types/order";
+import { useForm } from "react-hook-form";
+import { Header } from "src/components/header";
 
 type Props = {
   orders: Order[];
 };
 
 const Orders: NextPage<Props> = ({ orders }) => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm<any>();
+
   return (
-    <div>
+    <>
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
+      <Header />
+      <form className="m-6">
+        <label className="mr-2" htmlFor="name">
+          検索{" "}
+        </label>
+        <input
+          {...register("userName", { required: true })}
+          className=" appearance-none  border p-2 leading-tight focus:outline-none"
+          // onChange={(e) => setName(e.target.value)}
+          type="text"
+          id="name"
+        />
+      </form>
       <OrdersTable orders={orders} />
-    </div>
+    </>
   );
 };
 

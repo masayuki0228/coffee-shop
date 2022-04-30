@@ -9,6 +9,7 @@ import Router from "next/router";
 import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import Head from "next/head";
+import { Header } from "src/components/header";
 
 type Inputs = {
   userName: string;
@@ -52,98 +53,101 @@ const ProductId: NextPage<Props> = (props) => {
   }, [address, name, props.id, props.name, props.price, totalPrice]);
 
   return (
-    <main className="flex h-full w-full items-center bg-white p-10">
+    <>
       <Head>
         <title>【Coffee Shop】 商品詳細</title>
       </Head>
-      <div className="grid grid-cols-1 gap-8 pt-6 md:grid-cols-2">
-        <div className="flex flex-col justify-start">
-          <Image
-            width={600}
-            height={400}
-            src="https://images.unsplash.com/photo-1599637777203-34ac21aa929b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2888&q=80"
-            alt="This is coffee beeeeeeeean."
-            className="h-full w-full object-cover object-center lg:h-full lg:w-full"
-          />
+      <Header />
+      <main className="flex h-full w-full items-center bg-white p-10">
+        <div className="grid grid-cols-1 gap-8 pt-6 md:grid-cols-2">
+          <div className="flex flex-col justify-start">
+            <Image
+              width={600}
+              height={400}
+              src="https://images.unsplash.com/photo-1599637777203-34ac21aa929b?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2888&q=80"
+              alt="This is coffee beeeeeeeean."
+              className="h-full w-full object-cover object-center lg:h-full lg:w-full"
+            />
+          </div>
+          <div className="flex flex-col">
+            <h1 className="text-4xl font-bold capitalize">{props.name}</h1>
+            <h2 className="mt-6 text-3xl">¥{props.price}から</h2>
+            <article
+              className="mt-6"
+              dangerouslySetInnerHTML={{ __html: props.description }}
+            />
+
+            <form className="flex flex-col" onSubmit={handleSubmit(order)}>
+              <label className="mt-6" htmlFor="name">
+                お名前{" "}
+                {errors.userName && (
+                  <span className="text-sm text-red-400 ">
+                    ※お名前が未入力です。
+                  </span>
+                )}
+              </label>
+              <input
+                {...register("userName", { required: true })}
+                className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+                onChange={(e) => setName(e.target.value)}
+                type="text"
+                id="name"
+              />
+
+              <label className="mt-6" htmlFor="name">
+                お届け先{" "}
+                {errors.address && (
+                  <span className="text-sm text-red-400 ">
+                    ※お届け先が未入力です。
+                  </span>
+                )}
+              </label>
+              <input
+                {...register("address", { required: true })}
+                className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+                onChange={(e) => setAddress(e.target.value)}
+                value={address}
+                type="text"
+                id="address"
+              />
+
+              <label className="mt-6" htmlFor="send">
+                配送方法
+              </label>
+              <input
+                className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+                id="send"
+                type="text"
+                value="宅急便 :¥300"
+                readOnly
+              ></input>
+
+              <label className="mt-6" htmlFor="pay">
+                お支払い方法
+              </label>
+              <input
+                className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
+                id="pay"
+                type="text"
+                value="代金引換 : ¥300"
+                readOnly
+              ></input>
+              <div className="mt-6">
+                <p>小計 : ¥{props.price}</p>
+                <p>送料 : ¥300</p>
+                <p>手数料 : ¥300</p>
+                <p>合計 : ¥{totalPrice}</p>
+              </div>
+              <input
+                type="submit"
+                className="mt-8 w-2/4 cursor-pointer bg-sky-500 px-5 py-3 text-center text-white"
+                value="購入する"
+              />
+            </form>
+          </div>
         </div>
-        <div className="flex flex-col">
-          <h1 className="text-4xl font-bold capitalize">{props.name}</h1>
-          <h2 className="mt-6 text-3xl">¥{props.price}から</h2>
-          <article
-            className="mt-6"
-            dangerouslySetInnerHTML={{ __html: props.description }}
-          />
-
-          <form className="flex flex-col" onSubmit={handleSubmit(order)}>
-            <label className="mt-6" htmlFor="name">
-              お名前{" "}
-              {errors.userName && (
-                <span className="text-sm text-red-400 ">
-                  ※お名前が未入力です。
-                </span>
-              )}
-            </label>
-            <input
-              {...register("userName", { required: true })}
-              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
-              onChange={(e) => setName(e.target.value)}
-              type="text"
-              id="name"
-            />
-
-            <label className="mt-6" htmlFor="name">
-              お届け先{" "}
-              {errors.address && (
-                <span className="text-sm text-red-400 ">
-                  ※お届け先が未入力です。
-                </span>
-              )}
-            </label>
-            <input
-              {...register("address", { required: true })}
-              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
-              onChange={(e) => setAddress(e.target.value)}
-              value={address}
-              type="text"
-              id="address"
-            />
-
-            <label className="mt-6" htmlFor="send">
-              配送方法
-            </label>
-            <input
-              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
-              id="send"
-              type="text"
-              value="宅急便 :¥300"
-              readOnly
-            ></input>
-
-            <label className="mt-6" htmlFor="pay">
-              お支払い方法
-            </label>
-            <input
-              className="w-full appearance-none rounded border p-2 leading-tight focus:outline-none"
-              id="pay"
-              type="text"
-              value="代金引換 : ¥300"
-              readOnly
-            ></input>
-            <div className="mt-6">
-              <p>小計 : ¥{props.price}</p>
-              <p>送料 : ¥300</p>
-              <p>手数料 : ¥300</p>
-              <p>合計 : ¥{totalPrice}</p>
-            </div>
-            <input
-              type="submit"
-              className="mt-8 w-2/4 cursor-pointer bg-sky-500 px-5 py-3 text-center text-white"
-              value="購入する"
-            />
-          </form>
-        </div>
-      </div>
-    </main>
+      </main>
+    </>
   );
 };
 
