@@ -1,6 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
-import { Router, useRouter } from "next/router";
+import { useRouter } from "next/router";
 
 const Purchsed: NextPage = () => {
   const router = useRouter();
