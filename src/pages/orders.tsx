@@ -5,19 +5,26 @@ import Head from "next/head";
 import { OrdersTable } from "src/components/ordersTable";
 import { Order } from "src/types/order";
 import { Header } from "src/components/header";
+import { useState } from "react";
+import { SearchOrders } from "src/components/searchOrders";
 
 type Props = {
   orders: Order[];
 };
 
 const Orders: NextPage<Props> = ({ orders }) => {
+  const [orderList, setOrderList] = useState(orders);
+  console.log(orders);
+  console.log(orderList);
+
   return (
     <>
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
       <Header />
-      <OrdersTable orders={orders} />
+      <SearchOrders setOrderList={setOrderList} />
+      <OrdersTable orderList={orderList} />
     </>
   );
 };
