@@ -7,7 +7,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "src/firebase";
 import Router from "next/router";
 import { useCallback, useState } from "react";
-import { useForm } from "react-hook-form";
+import { SubmitHandler, useForm } from "react-hook-form";
 import Head from "next/head";
 import { Header } from "src/components/header";
 import dayjs from "dayjs";
@@ -29,7 +29,7 @@ const ProductId: NextPage<Props> = (props) => {
   const [address, setAddress] = useState("○○県○○市○○区○○町");
   const totalPrice = props.price + 300 + 300;
 
-  const order = useCallback(async () => {
+  const order: SubmitHandler<Inputs> = useCallback(async () => {
     const orderInfo = {
       productId: props.id,
       productName: props.name,
