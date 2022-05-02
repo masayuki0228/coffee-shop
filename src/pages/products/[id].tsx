@@ -10,6 +10,7 @@ import { useCallback, useState } from "react";
 import { useForm } from "react-hook-form";
 import Head from "next/head";
 import { Header } from "src/components/header";
+import dayjs from "dayjs";
 
 type Inputs = {
   userName: string;
@@ -41,6 +42,7 @@ const ProductId: NextPage<Props> = (props) => {
         commission: 300,
       },
       timestamp: serverTimestamp(),
+      date: dayjs(Date()).format("YYYY/MM/DD"),
     };
     const docRef = await addDoc(collection(db, "orders"), orderInfo);
     Router.push({
