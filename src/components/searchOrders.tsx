@@ -51,9 +51,9 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
 
   const searchByUserName: ComponentProps<"form">["onSubmit"] = async (e) => {
     e.preventDefault();
-    const date = e.currentTarget.query.value;
+    const value = e.currentTarget.query.value;
     const orders: Order[] = [];
-    const q = query(collection(db, "orders"), where("date", "==", date));
+    const q = query(collection(db, "orders"), where("userName", "==", value));
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
       const data = {
@@ -71,9 +71,9 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
 
   const searchByDate: ComponentProps<"form">["onSubmit"] = async (e) => {
     e.preventDefault();
-    const date = e.currentTarget.query.value;
+    const value = e.currentTarget.query.value;
     const orders: Order[] = [];
-    const q = query(collection(db, "orders"), where("date", "==", date));
+    const q = query(collection(db, "orders"), where("date", "==", value));
     const querySnapshot = await getDocs(q);
     console.log(querySnapshot);
     querySnapshot.docs.map((doc) => {
