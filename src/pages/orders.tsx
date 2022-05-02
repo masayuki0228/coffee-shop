@@ -14,9 +14,6 @@ type Props = {
 
 const Orders: NextPage<Props> = ({ orders }) => {
   const [orderList, setOrderList] = useState(orders);
-  console.log(orders);
-  console.log(orderList);
-
   return (
     <>
       <Head>
