@@ -5,13 +5,12 @@ type Props = {
   orderList: Order[];
 };
 
-export const OrdersTable: VFC<Props> = ({orderList}) => {
-
+export const OrdersTable: VFC<Props> = ({ orderList }) => {
   if (!orderList) {
-    return <div>Loading...</div>;
+    return <div className="m-6">Loading...</div>;
   }
   if (orderList && orderList.length === 0) {
-    return <div>No orders found.</div>;
+    return <div className="m-6 ">No orders found.</div>;
   }
   return (
     <table className="m-6 overflow-x-auto whitespace-nowrap p-4">
