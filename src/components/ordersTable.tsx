@@ -2,15 +2,15 @@ import { VFC } from "react";
 import { Order } from "src/types/order";
 
 type Props = {
-  orders: Order[];
+  orderList: Order[];
 };
 
-export const OrdersTable: VFC<Props> = ({ orders }) => {
-  if (!orders) {
-    return <div>Loading...</div>;
+export const OrdersTable: VFC<Props> = ({ orderList }) => {
+  if (!orderList) {
+    return <div className="m-6">Loading...</div>;
   }
-  if (orders && orders.length === 0) {
-    return <div>No orders found.</div>;
+  if (orderList && orderList.length === 0) {
+    return <div className="m-6 ">No orders found.</div>;
   }
   return (
     <table className="m-6 overflow-x-auto whitespace-nowrap p-4">
@@ -24,7 +24,7 @@ export const OrdersTable: VFC<Props> = ({ orders }) => {
           <th className="border px-4 py-2">購入日時</th>
         </tr>
       </thead>
-      {orders.map((order: Order) => {
+      {orderList.map((order: Order) => {
         return (
           <tbody key={order.id} className="flex-shrink-0">
             <tr>
