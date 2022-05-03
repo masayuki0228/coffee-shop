@@ -17,6 +17,8 @@ type Props = {
 
 export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
   const [orderId, setOrderId] = useState("");
+  const [userName, setUserName] = useState("");
+  const [date, setDate] = useState("");
 
   const searchByOrderId: ComponentProps<"form">["onSubmit"] = async (e) => {
     e.preventDefault();
@@ -44,9 +46,12 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
 
   const searchByUserName: ComponentProps<"form">["onSubmit"] = async (e) => {
     e.preventDefault();
-    const value = e.currentTarget.query.value;
+    if (userName == "") return;
     const orders: Order[] = [];
-    const q = query(collection(db, "orders"), where("userName", "==", value));
+    const q = query(
+      collection(db, "orders"),
+      where("userName", "==", userName)
+    );
     const querySnapshot = await getDocs(q);
     querySnapshot.docs.map((doc) => {
       const data = {
@@ -60,13 +65,14 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
       orders.push(data);
     });
     setOrderList(orders);
+    setUserName("");
   };
 
   const searchByDate: ComponentProps<"form">["onSubmit"] = async (e) => {
     e.preventDefault();
-    const value = e.currentTarget.query.value;
+    if (date == "") return;
     const orders: Order[] = [];
-    const q = query(collection(db, "orders"), where("date", "==", value));
+    const q = query(collection(db, "orders"), where("date", "==", date));
     const querySnapshot = await getDocs(q);
     console.log(querySnapshot);
     querySnapshot.docs.map((doc) => {
@@ -81,6 +87,7 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
       orders.push(data);
     });
     setOrderList(orders);
+    setDate("");
   };
 
   const handleClick: ComponentProps<"button">["onClick"] = async () => {
@@ -117,7 +124,8 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
       <form onSubmit={searchByUserName} className="mt-2">
         <input
           type="text"
-          name="query"
+          value={userName}
+          onChange={(e) => setUserName(e.target.value)}
           className="appearance-none border  p-1 focus:outline-none"
         />
         <button className="ml-2 border border-gray-600  p-1">
@@ -127,7 +135,8 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
       <form onSubmit={searchByDate} className="mt-2">
         <input
           type="text"
-          name="query"
+          value={date}
+          onChange={(e) => setDate(e.target.value)}
           className="appearance-none border  p-1 focus:outline-none"
         />
         <button className="ml-2 border border-gray-600 p-1">
