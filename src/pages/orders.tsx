@@ -21,7 +21,7 @@ const Orders: NextPage<Props> = ({ orders }) => {
       </Head>
       <Header />
       <SearchOrders setOrderList={setOrderList} />
-      <OrdersTable orderList={orderList} />
+      <OrdersTable orderList={orderList}  setOrderList={setOrderList}/>
     </>
   );
 };
