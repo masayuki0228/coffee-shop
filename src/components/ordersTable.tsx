@@ -1,12 +1,60 @@
-import { VFC } from "react";
+import {
+  collection,
+  doc,
+  getDocs,
+  orderBy,
+  query,
+  updateDoc,
+} from "firebase/firestore";
+import { ComponentProps, Dispatch, SetStateAction, useState, VFC } from "react";
+import { db } from "src/firebase";
 import { Order } from "src/types/order";
 
 type Props = {
   orderList: Order[];
+  setOrderList: Dispatch<SetStateAction<Order[]>>;
 };
 
-export const OrdersTable: VFC<Props> = ({ orderList }) => {
-  const setSent = () => {};
+export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
+  const [undispatchedList, setUndispatchedList] = useState<string[]>([]);
+
+  const handleChange: ComponentProps<"input">["onChange"] = (e) => {
+    if (undispatchedList.includes(e.target.value)) {
+      setUndispatchedList(
+        undispatchedList.filter(
+          (undispatched) => undispatched !== e.target.value
+        )
+      );
+    } else {
+      setUndispatchedList([...undispatchedList, e.target.value]);
+    }
+  };
+
+  const setSent: ComponentProps<"button">["onClick"] = async () => {
+    undispatchedList.map(async (undispatched) => {
+      const washingtonRef = doc(db, "orders", undispatched);
+      await updateDoc(washingtonRef, {
+        sent: true,
+      });
+    });
+
+    const orders: Order[] = [];
+    const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+    const querySnapshot = await getDocs(q);
+    querySnapshot.docs.map((doc) => {
+      const data = {
+        id: doc.id,
+        userName: doc.data().userName,
+        address: doc.data().address,
+        productName: doc.data().productName,
+        price: doc.data().price,
+        date: doc.data().date,
+        sent: doc.data().sent,
+      };
+      orders.push(data);
+    });
+    setOrderList(orders);
+  };
 
   if (!orderList) {
     return <div className="m-6">Loading...</div>;
@@ -25,7 +73,7 @@ export const OrdersTable: VFC<Props> = ({ orderList }) => {
           <th className="border px-4 py-2">価格</th>
           <th className="border px-4 py-2">購入日時</th>
           <th className="border px-2">
-            <button onSubmit={setSent} className="border border-gray-600 p-1">
+            <button onClick={setSent} className="border border-gray-600 p-1">
               発送済みにする
             </button>
           </th>
@@ -47,7 +95,13 @@ export const OrdersTable: VFC<Props> = ({ orderList }) => {
                 ) : (
                   <>
                     未発送
-                    <input className="ml-2 " type="checkbox" />
+                    <input
+                      className="ml-2 "
+                      type="checkbox"
+                      value={order.id}
+                      onChange={handleChange}
+                      checked={undispatchedList.includes(order.id)}
+                    />
                   </>
                 )}
               </td>
