@@ -43,6 +43,7 @@ const ProductId: NextPage<Props> = (props) => {
       },
       timestamp: serverTimestamp(),
       date: dayjs(Date()).format("YYYY/MM/DD"),
+      sent: false,
     };
     const docRef = await addDoc(collection(db, "orders"), orderInfo);
     Router.push({

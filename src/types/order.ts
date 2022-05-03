@@ -7,4 +7,5 @@ export type Order = {
     totalPrice: number;
   };
   date: string;
+  sent: boolean
 };

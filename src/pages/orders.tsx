@@ -38,6 +38,7 @@ export const getServerSideProps: GetServerSideProps<Props> = async () => {
       productName: doc.data().productName,
       price: doc.data().price,
       date: doc.data().date,
+      sent: doc.data().sent,
     };
     orders.push(data);
   });

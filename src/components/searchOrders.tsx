@@ -34,6 +34,7 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
         productName: docSnap.data().productName,
         price: docSnap.data().price,
         date: docSnap.data().date,
+        sent: docSnap.data().sent,
       };
       order.push(data);
       setOrderList(order);
@@ -61,6 +62,7 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
         productName: doc.data().productName,
         price: doc.data().price,
         date: doc.data().date,
+        sent: doc.data().sent,
       };
       orders.push(data);
     });
@@ -83,6 +85,7 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
         productName: doc.data().productName,
         price: doc.data().price,
         date: doc.data().date,
+        sent: doc.data().sent,
       };
       orders.push(data);
     });
@@ -102,6 +105,7 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
         productName: doc.data().productName,
         price: doc.data().price,
         date: doc.data().date,
+        sent: doc.data().sent,
       };
       orders.push(data);
     });

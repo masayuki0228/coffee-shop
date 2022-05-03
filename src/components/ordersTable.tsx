@@ -6,6 +6,8 @@ type Props = {
 };
 
 export const OrdersTable: VFC<Props> = ({ orderList }) => {
+  const setSent = () => {};
+
   if (!orderList) {
     return <div className="m-6">Loading...</div>;
   }
@@ -22,6 +24,11 @@ export const OrdersTable: VFC<Props> = ({ orderList }) => {
           <th className="border px-4 py-2">商品名</th>
           <th className="border px-4 py-2">価格</th>
           <th className="border px-4 py-2">購入日時</th>
+          <th className="border px-2">
+            <button onSubmit={setSent} className="border border-gray-600 p-1">
+              発送済みにする
+            </button>
+          </th>
         </tr>
       </thead>
       {orderList.map((order: Order) => {
@@ -34,6 +41,16 @@ export const OrdersTable: VFC<Props> = ({ orderList }) => {
               <td className="border px-2 py-1">{order.productName}</td>
               <td className="border px-2 py-1">¥{order.price.totalPrice}</td>
               <td className="border px-2 py-1">{order.date}</td>
+              <td className="border px-2 py-1 text-center">
+                {order.sent ? (
+                  "発送済み"
+                ) : (
+                  <>
+                    未発送
+                    <input className="ml-2 " type="checkbox" />
+                  </>
+                )}
+              </td>
             </tr>
           </tbody>
         );
