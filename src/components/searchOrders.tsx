@@ -3,13 +3,13 @@ import {
   doc,
   getDoc,
   getDocs,
-  orderBy,
   query,
   where,
 } from "firebase/firestore";
 import { ComponentProps, Dispatch, SetStateAction, useState, VFC } from "react";
 import { db } from "src/firebase";
 import { Order } from "src/types/order";
+import { getOrders } from "src/firebase/orders";
 
 type Props = {
   setOrderList: Dispatch<SetStateAction<Order[]>>;
@@ -94,21 +94,7 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
   };
 
   const handleClick: ComponentProps<"button">["onClick"] = async () => {
-    const orders: Order[] = [];
-    const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.docs.map((doc) => {
-      const data = {
-        id: doc.id,
-        userName: doc.data().userName,
-        address: doc.data().address,
-        productName: doc.data().productName,
-        price: doc.data().price,
-        date: doc.data().date,
-        sent: doc.data().sent,
-      };
-      orders.push(data);
-    });
+    const orders: Order[] = await getOrders();
     setOrderList(orders);
   };
 
