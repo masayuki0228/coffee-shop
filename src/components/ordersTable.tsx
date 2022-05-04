@@ -36,24 +36,16 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
       await updateDoc(washingtonRef, {
         sent: true,
       });
+      const orders: Order[] = [];
+      orderList.map((order) => {
+        const data = order;
+        if (undispatchedList.includes(order.id)) {
+          order.sent = !order.sent;
+        }
+        orders.push(data);
+      });
+      setOrderList(orders);
     });
-
-    const orders: Order[] = [];
-    const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
-    const querySnapshot = await getDocs(q);
-    querySnapshot.docs.map((doc) => {
-      const data = {
-        id: doc.id,
-        userName: doc.data().userName,
-        address: doc.data().address,
-        productName: doc.data().productName,
-        price: doc.data().price,
-        date: doc.data().date,
-        sent: doc.data().sent,
-      };
-      orders.push(data);
-    });
-    setOrderList(orders);
   };
 
   if (!orderList) {
