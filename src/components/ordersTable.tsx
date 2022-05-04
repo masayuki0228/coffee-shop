@@ -36,16 +36,16 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
       await updateDoc(washingtonRef, {
         sent: true,
       });
-      const orders: Order[] = [];
-      orderList.map((order) => {
-        const data = order;
-        if (undispatchedList.includes(order.id)) {
-          order.sent = !order.sent;
-        }
-        orders.push(data);
-      });
-      setOrderList(orders);
     });
+    const orders: Order[] = [];
+    orderList.map((order) => {
+      const data = order;
+      if (undispatchedList.includes(order.id)) {
+        data.sent = true;
+      }
+      orders.push(data);
+    });
+    setOrderList(orders);
   };
 
   if (!orderList) {
