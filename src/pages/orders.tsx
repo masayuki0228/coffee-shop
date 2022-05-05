@@ -4,7 +4,6 @@ import { db } from "src/firebase";
 import Head from "next/head";
 import { OrdersTable } from "src/components/ordersTable";
 import { Order } from "src/types/order";
-import { Header } from "src/components/header";
 import { useState } from "react";
 import { SearchOrders } from "src/components/searchOrders";
 
@@ -19,7 +18,6 @@ const Orders: NextPage<Props> = ({ orders }) => {
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
-      <Header />
       <SearchOrders setOrderList={setOrderList} />
       <OrdersTable orderList={orderList}  setOrderList={setOrderList}/>
     </>
