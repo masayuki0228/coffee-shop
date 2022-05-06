@@ -1,7 +1,6 @@
 import type { NextPage } from "next";
 import Head from "next/head";
 import { useRouter } from "next/router";
-import { Header } from "src/components/header";
 
 const Purchsed: NextPage = () => {
   const router = useRouter();
@@ -10,7 +9,6 @@ const Purchsed: NextPage = () => {
       <Head>
         <title>【Coffee Shop】 Thank you!!!</title>
       </Head>
-      <Header />
       <div className="container mx-auto p-12 text-center">
         <p>ご購入ありがとうございました！</p>
         <p>注文ID : {router.query.id}</p>
