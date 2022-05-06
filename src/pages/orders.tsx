@@ -52,8 +52,10 @@ const Orders: NextPage<Props> = ({ admin, loading }) => {
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
-      <SearchOrders setOrderList={setOrderList} />
-      <OrdersTable orderList={orderList} setOrderList={setOrderList} />
+      <div className="md:grid md:grid-cols-6 h-full">
+        <SearchOrders setOrderList={setOrderList} />
+        <OrdersTable orderList={orderList} setOrderList={setOrderList} />
+      </div>
     </>
   );
 };

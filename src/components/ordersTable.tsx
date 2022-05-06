@@ -48,8 +48,8 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
     return <div className="m-6 ">No orders found.</div>;
   }
   return (
-    <table className="m-6 overflow-x-auto whitespace-nowrap p-4">
-      <thead className="flex-shrink-0">
+    <table className="m-6 overflow-x-auto whitespace-nowrap h-fit">
+      <thead>
         <tr>
           <th className="border px-4 py-2">注文Id</th>
           <th className="border px-4 py-2">お名前</th>
@@ -66,7 +66,7 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
       </thead>
       {orderList.map((order: Order) => {
         return (
-          <tbody key={order.id} className="flex-shrink-0">
+          <tbody key={order.id}>
             <tr>
               <td className="border px-2 py-1">{order.id}</td>
               <td className="border px-2 py-1">{order.userName}</td>
