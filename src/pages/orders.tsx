@@ -4,27 +4,40 @@ import { db } from "src/firebase";
 import Head from "next/head";
 import { OrdersTable } from "src/components/ordersTable";
 import { Order } from "src/types/order";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { SearchOrders } from "src/components/searchOrders";
+import { User } from "firebase/auth";
+import { useRouter } from "next/router";
 
 type Props = {
   orders: Order[];
+  admin: User | null;
 };
 
-const Orders: NextPage<Props> = ({ orders }) => {
+type ssrProps = {
+  orders: Order[];
+};
+
+const Orders: NextPage<Props> = ({ orders, admin }) => {
   const [orderList, setOrderList] = useState(orders);
+  const router = useRouter();
+  useEffect(() => {
+    if (!admin) {
+      router.push("/");
+    }
+  }, [admin, router]);
   return (
     <>
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
       <SearchOrders setOrderList={setOrderList} />
-      <OrdersTable orderList={orderList}  setOrderList={setOrderList}/>
+      <OrdersTable orderList={orderList} setOrderList={setOrderList} />
     </>
   );
 };
 
-export const getServerSideProps: GetServerSideProps<Props> = async () => {
+export const getServerSideProps: GetServerSideProps<ssrProps> = async () => {
   const orders: Order[] = [];
   const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
   const querySnapshot = await getDocs(q);

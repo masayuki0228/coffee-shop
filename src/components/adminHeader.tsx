@@ -15,7 +15,6 @@ export const AdminHeader: FC<{ admin: User }> = ({ admin }) => {
     await signOut(auth);
     router.push("/");
   };
-  console.log(admin.email);
 
   return (
     <header className="flex h-20 w-full items-center border-b">

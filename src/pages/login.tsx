@@ -1,6 +1,6 @@
 import { auth } from "src/firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { signInWithEmailAndPassword, User } from "firebase/auth";
+import { FC, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
@@ -10,11 +10,10 @@ type Inputs = {
 };
 
 type Props = {
-  admin: {} | null;
-  setAdmin: Dispatch<SetStateAction<{} | null>>;
+  admin: User | null;
 };
 
-const Login: FC<Props> = ({ admin, setAdmin }) => {
+const Login: FC<Props> = ({ admin }) => {
   const {
     register,
     handleSubmit,
