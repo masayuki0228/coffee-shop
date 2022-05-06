@@ -17,17 +17,19 @@ export const AdminHeader: FC<{ admin: User }> = ({ admin }) => {
   };
 
   return (
-    <header className="flex h-20 w-full items-center border-b">
-      {NAV_ITEMS.map((item) => {
-        return (
-          <Link key={item.href} href={item.href}>
-            <a className="ml-6 inline-block py-2 px-6 text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500">
-              {item.label}
-            </a>
-          </Link>
-        );
-      })}
-      <div className="fixed  right-0 flex  items-center">
+    <header className="flex justify-between h-20 w-full items-center border-b">
+      <div>
+        {NAV_ITEMS.map((item) => {
+          return (
+            <Link key={item.href} href={item.href}>
+              <a className="ml-6 inline-block py-2 px-6 text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500">
+                {item.label}
+              </a>
+            </Link>
+          );
+        })}
+      </div>
+      <div className="flex items-center">
         <p>{admin.displayName}がログイン中</p>
         <button
           onClick={logout}
