@@ -11,18 +11,22 @@ import { useRouter } from "next/router";
 
 type Props = {
   admin: User | null;
+  loading: boolean;
 };
 
-const Orders: NextPage<Props> = ({ admin }) => {
+const Orders: NextPage<Props> = ({ admin, loading }) => {
   const [orderList, setOrderList] = useState<Order[] | null>(null);
-  // const router = useRouter();
-  // useEffect(() => {
-  //   if (!admin) {
-  //     router.push("/");
-  //   }
-  // }, [admin, router]);
+
+  const router = useRouter();
+  useEffect(() => {
+    if (loading) return;
+    if (!admin) {
+      router.push("/");
+    }
+  }, [admin, loading, router]);
 
   useEffect(() => {
+    if (loading) return;
     (async () => {
       const orders: Order[] = [];
       const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
@@ -41,7 +45,7 @@ const Orders: NextPage<Props> = ({ admin }) => {
       });
       setOrderList(orders);
     })();
-  }, []);
+  }, [loading]);
 
   return (
     <>

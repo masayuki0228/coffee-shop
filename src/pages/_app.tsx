@@ -8,16 +8,18 @@ import { AdminHeader } from "src/components/adminHeader";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [admin, setAdmin] = useState<User | null>();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     onAuthStateChanged(auth, (currentUser) => {
       setAdmin(currentUser);
+      setLoading(false);
     });
   }, []);
 
   return (
     <>
       {admin ? <AdminHeader admin={admin} /> : <Header />}
-      <Component {...pageProps} admin={admin} setAdmin={setAdmin} />
+      <Component {...pageProps} admin={admin} setAdmin={setAdmin} loading={loading} setLoading={setLoading}/>
     </>
   );
 }
