@@ -141,7 +141,7 @@ const ProductId: NextPage<Props> = (props) => {
               </div>
               <input
                 type="submit"
-                className="mt-8 w-2/4 cursor-pointer bg-sky-500 px-5 py-3 text-center text-white"
+                className="mt-8 w-2/4 cursor-pointer rounded bg-sky-500 p-4 py-3 text-sm font-medium text-white hover:bg-sky-600"
                 value="購入する"
               />
             </form>

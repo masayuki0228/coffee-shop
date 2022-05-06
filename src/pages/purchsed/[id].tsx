@@ -18,7 +18,7 @@ const Purchsed: NextPage = () => {
           onClick={() => {
             router.push("/");
           }}
-          className="m-6 w-1/4 bg-sky-500 px-4 py-3 text-center text-white"
+          className="mt-6  w-full rounded bg-sky-500 p-4 py-3 text-sm font-medium text-white hover:bg-sky-600 sm:w-1/4"
         >
           一覧に戻る
         </button>
