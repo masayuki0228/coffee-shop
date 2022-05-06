@@ -17,10 +17,10 @@ function MyApp({ Component, pageProps }: AppProps) {
   }, []);
 
   return (
-    <>
+    <div className="h-screen">
       {admin ? <AdminHeader admin={admin} /> : <Header />}
       <Component {...pageProps} admin={admin} setAdmin={setAdmin} loading={loading} setLoading={setLoading}/>
-    </>
+    </div>
   );
 }
 
