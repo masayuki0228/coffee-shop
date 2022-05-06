@@ -94,6 +94,13 @@ const Login: FC<Props> = ({ admin }) => {
               >
                 Sign in
               </button>
+              <p className="mt-6 text-center text-gray-500">
+                email : test@test.com
+                <br />
+                password : coffee
+                <br />
+                でログイン出来ます。
+              </p>
             </div>
           </form>
         </div>
