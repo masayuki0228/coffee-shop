@@ -1,6 +1,6 @@
 import { auth } from "src/firebase";
-import { onAuthStateChanged, signInWithEmailAndPassword } from "firebase/auth";
-import { Dispatch, FC, SetStateAction, useEffect, useState } from "react";
+import { signInWithEmailAndPassword, User } from "firebase/auth";
+import { FC, useEffect, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { useRouter } from "next/router";
 
@@ -10,11 +10,10 @@ type Inputs = {
 };
 
 type Props = {
-  admin: {} | null;
-  setAdmin: Dispatch<SetStateAction<{} | null>>;
+  admin: User | null;
 };
 
-const Login: FC<Props> = ({ admin, setAdmin }) => {
+const Login: FC<Props> = ({ admin }) => {
   const {
     register,
     handleSubmit,
@@ -46,13 +45,13 @@ const Login: FC<Props> = ({ admin, setAdmin }) => {
   }, [admin, router]);
 
   return (
-    <div>
-      <h1>ログイン</h1>
+    <div className="container mx-auto p-12 text-center">
+      <h1>ログインページ</h1>
       <form onSubmit={handleSubmit(login)}>
         <div>
           <input
             {...register("email", { required: true })}
-            className="appearance-none rounded border p-2 leading-tight focus:outline-none"
+            className="appearance-none rounded border mt-6 p-2 leading-tight focus:outline-none"
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             id="name"
@@ -69,7 +68,7 @@ const Login: FC<Props> = ({ admin, setAdmin }) => {
         <div>
           <input
             {...register("password", { required: true })}
-            className="appearance-none rounded border p-2 leading-tight focus:outline-none"
+            className="appearance-none rounded border mt-2 p-2 leading-tight focus:outline-none"
             onChange={(e) => setPassword(e.target.value)}
             type="text"
             id="name"
@@ -84,9 +83,12 @@ const Login: FC<Props> = ({ admin, setAdmin }) => {
           </label>
         </div>
         <div>
-          <button>ログイン</button>
+          <button className="m-4 w-1/4 px-4 py-3 text-center border">ログイン</button>
         </div>
       </form>
+      <p>メールアドレス : test@test.com</p>
+      <p>パスワード : coffee</p>
+      <p>で、ログインできます。</p>
     </div>
   );
 };
