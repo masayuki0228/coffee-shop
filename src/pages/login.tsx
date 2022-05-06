@@ -45,13 +45,13 @@ const Login: FC<Props> = ({ admin }) => {
   }, [admin, router]);
 
   return (
-    <div>
-      <h1>ログイン</h1>
+    <div className="container mx-auto p-12 text-center">
+      <h1>ログインページ</h1>
       <form onSubmit={handleSubmit(login)}>
         <div>
           <input
             {...register("email", { required: true })}
-            className="appearance-none rounded border p-2 leading-tight focus:outline-none"
+            className="appearance-none rounded border mt-6 p-2 leading-tight focus:outline-none"
             onChange={(e) => setEmail(e.target.value)}
             type="text"
             id="name"
@@ -68,7 +68,7 @@ const Login: FC<Props> = ({ admin }) => {
         <div>
           <input
             {...register("password", { required: true })}
-            className="appearance-none rounded border p-2 leading-tight focus:outline-none"
+            className="appearance-none rounded border mt-2 p-2 leading-tight focus:outline-none"
             onChange={(e) => setPassword(e.target.value)}
             type="text"
             id="name"
@@ -83,9 +83,12 @@ const Login: FC<Props> = ({ admin }) => {
           </label>
         </div>
         <div>
-          <button>ログイン</button>
+          <button className="m-4 w-1/4 px-4 py-3 text-center border">ログイン</button>
         </div>
       </form>
+      <p>メールアドレス : test@test.com</p>
+      <p>パスワード : coffee</p>
+      <p>で、ログインできます。</p>
     </div>
   );
 };
