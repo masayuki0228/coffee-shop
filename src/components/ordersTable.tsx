@@ -1,15 +1,14 @@
-import { doc, updateDoc } from "firebase/firestore";
-import { ComponentProps, Dispatch, SetStateAction, useState, VFC } from "react";
-import { db } from "src/firebase";
+import { ComponentProps, Dispatch, FC, SetStateAction } from "react";
 import { Order } from "src/types/order";
 
 type Props = {
   orderList: Order[] | null;
-  setOrderList: Dispatch<SetStateAction<Order[] | null>>;
+  undispatchedList: string[];
+  setUndispatchedList: Dispatch<SetStateAction<string[]>>;
 };
 
-export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
-  const [undispatchedList, setUndispatchedList] = useState<string[]>([]);
+export const OrdersTable: FC<Props> = (props) => {
+  const { orderList, undispatchedList, setUndispatchedList } = props;
 
   const handleChange: ComponentProps<"input">["onChange"] = (e) => {
     if (undispatchedList.includes(e.target.value)) {
@@ -23,24 +22,6 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
     }
   };
 
-  const setSent: ComponentProps<"button">["onClick"] = async () => {
-    undispatchedList.map(async (undispatched) => {
-      const washingtonRef = doc(db, "orders", undispatched);
-      await updateDoc(washingtonRef, {
-        sent: true,
-      });
-    });
-    const orders: Order[] = [];
-    orderList?.map((order) => {
-      const data = order;
-      if (undispatchedList.includes(order.id)) {
-        data.sent = true;
-      }
-      orders.push(data);
-    });
-    setOrderList(orders);
-  };
-
   if (!orderList) {
     return <div className="m-6">Loading...</div>;
   }
@@ -48,7 +29,7 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
     return <div className="m-6 ">No orders found.</div>;
   }
   return (
-    <table className="m-6 overflow-x-auto whitespace-nowrap h-fit">
+    <table className="m-6 h-fit overflow-x-auto whitespace-nowrap">
       <thead>
         <tr>
           <th className="border px-4 py-2">注文Id</th>
@@ -57,11 +38,7 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
           <th className="border px-4 py-2">商品名</th>
           <th className="border px-4 py-2">価格</th>
           <th className="border px-4 py-2">購入日時</th>
-          <th className="border px-2">
-            <button onClick={setSent} className="border border-gray-600 p-1">
-              発送済みにする
-            </button>
-          </th>
+          <th className="border px-4 py-2">発送状況</th>
         </tr>
       </thead>
       {orderList.map((order: Order) => {

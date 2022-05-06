@@ -4,18 +4,24 @@ import {
   getDoc,
   getDocs,
   query,
+  updateDoc,
   where,
 } from "firebase/firestore";
-import { ComponentProps, Dispatch, SetStateAction, useState, VFC } from "react";
+import { ComponentProps, Dispatch, FC, SetStateAction, useState } from "react";
 import { db } from "src/firebase";
 import { Order } from "src/types/order";
 import { getOrders } from "src/firebase/orders";
 
 type Props = {
+  orderList: Order[] | null;
   setOrderList: Dispatch<SetStateAction<Order[] | null>>;
+  undispatchedList: string[];
+  setUndispatchedList: Dispatch<SetStateAction<string[]>>;
 };
 
-export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
+export const SearchOrders: FC<Props> = (props) => {
+  const { orderList, setOrderList, undispatchedList, setUndispatchedList } =
+    props;
   const [orderId, setOrderId] = useState("");
   const [userName, setUserName] = useState("");
 
@@ -74,6 +80,34 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
     setOrderList(orders);
   };
 
+  const setSent: ComponentProps<"button">["onClick"] = async () => {
+    undispatchedList.map(async (undispatched) => {
+      const washingtonRef = doc(db, "orders", undispatched);
+      await updateDoc(washingtonRef, {
+        sent: true,
+      });
+    });
+    const orders: Order[] = [];
+    orderList?.map((order) => {
+      const data = order;
+      if (undispatchedList.includes(order.id)) {
+        data.sent = true;
+      }
+      orders.push(data);
+    });
+    setOrderList(orders);
+  };
+
+  const allCheck: ComponentProps<"button">["onClick"]  = () => {
+    const list: string[] = [];
+    orderList?.map((order) => {
+      if (!order.sent) {
+        list.push(order.id);
+      }
+    });
+    setUndispatchedList(list);
+  };
+
   return (
     <div className="flex-col border-r bg-gray-100 px-6">
       <form onSubmit={searchByOrderId}>
@@ -103,10 +137,24 @@ export const SearchOrders: VFC<Props> = ({ setOrderList }) => {
       </form>
       <button
         type="reset"
-        className="my-4 rounded border bg-white p-1 md:mt-12 md:w-full"
+        className="mt-4 rounded border bg-white p-1 md:mt-12 md:w-full"
         onClick={handleClick}
       >
         リセット
+      </button>
+      <button
+        className="mt-4 rounded border bg-white p-1 md:mt-12 md:w-full"
+        onClick={allCheck}
+      >
+        全て選択する
+      </button>
+      <button
+        className="mt-4 rounded border bg-white p-1 md:w-full"
+        onClick={setSent}
+      >
+        選択した注文を
+        <br />
+        発送済みにする
       </button>
     </div>
   );
