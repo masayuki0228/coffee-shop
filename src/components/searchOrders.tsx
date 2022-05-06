@@ -12,7 +12,7 @@ import { Order } from "src/types/order";
 import { getOrders } from "src/firebase/orders";
 
 type Props = {
-  setOrderList: Dispatch<SetStateAction<Order[]>>;
+  setOrderList: Dispatch<SetStateAction<Order[] | null>>;
 };
 
 export const SearchOrders: VFC<Props> = ({ setOrderList }) => {

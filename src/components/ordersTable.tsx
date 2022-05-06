@@ -1,18 +1,11 @@
-import {
-  collection,
-  doc,
-  getDocs,
-  orderBy,
-  query,
-  updateDoc,
-} from "firebase/firestore";
+import { doc, updateDoc } from "firebase/firestore";
 import { ComponentProps, Dispatch, SetStateAction, useState, VFC } from "react";
 import { db } from "src/firebase";
 import { Order } from "src/types/order";
 
 type Props = {
-  orderList: Order[];
-  setOrderList: Dispatch<SetStateAction<Order[]>>;
+  orderList: Order[] | null;
+  setOrderList: Dispatch<SetStateAction<Order[] | null>>;
 };
 
 export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
@@ -38,7 +31,7 @@ export const OrdersTable: VFC<Props> = ({ orderList, setOrderList }) => {
       });
     });
     const orders: Order[] = [];
-    orderList.map((order) => {
+    orderList?.map((order) => {
       const data = order;
       if (undispatchedList.includes(order.id)) {
         data.sent = true;

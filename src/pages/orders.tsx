@@ -1,4 +1,4 @@
-import type { GetServerSideProps, NextPage } from "next";
+import type { NextPage } from "next";
 import { collection, getDocs, orderBy, query } from "firebase/firestore";
 import { db } from "src/firebase";
 import Head from "next/head";
@@ -10,22 +10,39 @@ import { User } from "firebase/auth";
 import { useRouter } from "next/router";
 
 type Props = {
-  orders: Order[];
   admin: User | null;
 };
 
-type ssrProps = {
-  orders: Order[];
-};
+const Orders: NextPage<Props> = ({ admin }) => {
+  const [orderList, setOrderList] = useState<Order[] | null>(null);
+  // const router = useRouter();
+  // useEffect(() => {
+  //   if (!admin) {
+  //     router.push("/");
+  //   }
+  // }, [admin, router]);
 
-const Orders: NextPage<Props> = ({ orders, admin }) => {
-  const [orderList, setOrderList] = useState(orders);
-  const router = useRouter();
   useEffect(() => {
-    if (!admin) {
-      router.push("/");
-    }
-  }, [admin, router]);
+    (async () => {
+      const orders: Order[] = [];
+      const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
+      const querySnapshot = await getDocs(q);
+      querySnapshot.docs.map((doc) => {
+        const data = {
+          id: doc.id,
+          userName: doc.data().userName,
+          address: doc.data().address,
+          productName: doc.data().productName,
+          price: doc.data().price,
+          date: doc.data().date,
+          sent: doc.data().sent,
+        };
+        orders.push(data);
+      });
+      setOrderList(orders);
+    })();
+  }, []);
+
   return (
     <>
       <Head>
@@ -35,27 +52,6 @@ const Orders: NextPage<Props> = ({ orders, admin }) => {
       <OrdersTable orderList={orderList} setOrderList={setOrderList} />
     </>
   );
-};
-
-export const getServerSideProps: GetServerSideProps<ssrProps> = async () => {
-  const orders: Order[] = [];
-  const q = query(collection(db, "orders"), orderBy("timestamp", "desc"));
-  const querySnapshot = await getDocs(q);
-  querySnapshot.docs.map((doc) => {
-    const data = {
-      id: doc.id,
-      userName: doc.data().userName,
-      address: doc.data().address,
-      productName: doc.data().productName,
-      price: doc.data().price,
-      date: doc.data().date,
-      sent: doc.data().sent,
-    };
-    orders.push(data);
-  });
-  return {
-    props: { orders },
-  };
 };
 
 export default Orders;
