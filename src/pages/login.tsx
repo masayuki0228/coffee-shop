@@ -45,51 +45,60 @@ const Login: FC<Props> = ({ admin }) => {
   }, [admin, router]);
 
   return (
-    <div className="container mx-auto p-12 text-center">
-      <h1>ログインページ</h1>
-      <form onSubmit={handleSubmit(login)}>
-        <div>
-          <input
-            {...register("email", { required: true })}
-            className="appearance-none rounded border mt-6 p-2 leading-tight focus:outline-none"
-            onChange={(e) => setEmail(e.target.value)}
-            type="text"
-            id="name"
-          />
-          <label className="mt-6" htmlFor="name">
-            メールアドレス{" "}
-            {errors.email && (
-              <span className="text-sm text-red-400 ">
-                ※メールアドレスが未入力です。
-              </span>
-            )}
-          </label>
+    <>
+      <div className="flex justify-center px-4 pt-36 sm:px-6 lg:px-8">
+        <div className="w-full max-w-md">
+          <h2 className="mt-6 text-center text-3xl font-extrabold text-gray-900">
+            Sign in to admin account
+          </h2>
+          <form className="mt-8" onSubmit={handleSubmit(login)}>
+            <div>
+              <input
+                {...register("email", { required: true })}
+                onChange={(e) => setEmail(e.target.value)}
+                className="w-full appearance-none rounded border border-gray-300 px-3 py-2 placeholder-gray-500 focus:outline-none sm:text-sm"
+                type="email"
+                id="email"
+                placeholder="Email address"
+              />
+              {errors.email ? (
+                <span className="text-sm text-red-400 ">
+                  ※メールアドレスが未入力です。
+                </span>
+              ) : (
+                <span>&nbsp;</span>
+              )}
+            </div>
+            <div>
+              <input
+                {...register("password", { required: true })}
+                onChange={(e) => setPassword(e.target.value)}
+                className="w-full appearance-none rounded border border-gray-300 px-3 py-2 placeholder-gray-500 focus:outline-none sm:text-sm"
+                type="password"
+                id="password"
+                placeholder="password"
+              />
+              {errors.password ? (
+                <span className="text-sm text-red-400 ">
+                  ※パスワードが未入力です。
+                </span>
+              ) : (
+                <span>&nbsp;</span>
+              )}
+            </div>
+
+            <div>
+              <button
+                type="submit"
+                className=" mt-6  w-full  rounded bg-sky-500 p-4 py-3 text-sm font-medium text-white hover:bg-sky-600"
+              >
+                Sign in
+              </button>
+            </div>
+          </form>
         </div>
-        <div>
-          <input
-            {...register("password", { required: true })}
-            className="appearance-none rounded border mt-2 p-2 leading-tight focus:outline-none"
-            onChange={(e) => setPassword(e.target.value)}
-            type="text"
-            id="name"
-          />
-          <label className="mt-6" htmlFor="name">
-            パスワード{" "}
-            {errors.password && (
-              <span className="text-sm text-red-400 ">
-                ※パスワードが未入力です。
-              </span>
-            )}
-          </label>
-        </div>
-        <div>
-          <button className="m-4 w-1/4 px-4 py-3 text-center border">ログイン</button>
-        </div>
-      </form>
-      <p>メールアドレス : test@test.com</p>
-      <p>パスワード : coffee</p>
-      <p>で、ログインできます。</p>
-    </div>
+      </div>
+    </>
   );
 };
 
