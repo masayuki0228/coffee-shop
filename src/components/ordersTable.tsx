@@ -5,10 +5,12 @@ type Props = {
   orderList: Order[] | null;
   undispatchedList: string[];
   setUndispatchedList: Dispatch<SetStateAction<string[]>>;
+  setOpen: Dispatch<SetStateAction<boolean>>;
 };
 
 export const OrdersTable: FC<Props> = (props) => {
-  const { orderList, undispatchedList, setUndispatchedList } = props;
+  const { orderList, undispatchedList, setUndispatchedList, setOpen } =
+    props;
 
   const handleChange: ComponentProps<"input">["onChange"] = (e) => {
     if (undispatchedList.includes(e.target.value)) {
@@ -26,51 +28,59 @@ export const OrdersTable: FC<Props> = (props) => {
     return <div className="m-6">Loading...</div>;
   }
   if (orderList && orderList.length === 0) {
-    return <div className="m-6 ">No orders found.</div>;
+    return <div className="m-6">No orders found.</div>;
   }
   return (
-    <table className="m-6 h-fit overflow-x-auto whitespace-nowrap">
-      <thead>
-        <tr>
-          <th className="border px-4 py-2">注文Id</th>
-          <th className="border px-4 py-2">お名前</th>
-          <th className="border px-4 py-2">お届け先</th>
-          <th className="border px-4 py-2">商品名</th>
-          <th className="border px-4 py-2">価格</th>
-          <th className="border px-4 py-2">購入日時</th>
-          <th className="border px-4 py-2">発送状況</th>
-        </tr>
-      </thead>
-      {orderList.map((order: Order) => {
-        return (
-          <tbody key={order.id}>
-            <tr>
-              <td className="border px-2 py-1">{order.id}</td>
-              <td className="border px-2 py-1">{order.userName}</td>
-              <td className="border px-2 py-1">{order.address}</td>
-              <td className="border px-2 py-1">{order.productName}</td>
-              <td className="border px-2 py-1">¥{order.price.totalPrice}</td>
-              <td className="border px-2 py-1">{order.date}</td>
-              <td className="border px-2 py-1 text-center">
-                {order.sent ? (
-                  "発送済み"
-                ) : (
-                  <>
-                    未発送
-                    <input
-                      className="ml-2 "
-                      type="checkbox"
-                      value={order.id}
-                      onChange={handleChange}
-                      checked={undispatchedList.includes(order.id)}
-                    />
-                  </>
-                )}
-              </td>
-            </tr>
-          </tbody>
-        );
-      })}
-    </table>
+    <div>
+      <button
+        className="m-4 mx-auto font-semibold flex rounded p-3 border lg:hidden"
+        onClick={() => setOpen(true)}
+      >
+        <p>検索・発送処理</p>
+      </button>
+      <table className="m-6 h-fit overflow-x-auto whitespace-nowrap">
+        <thead>
+          <tr>
+            <th className="border px-4 py-2">注文Id</th>
+            <th className="border px-4 py-2">お名前</th>
+            <th className="border px-4 py-2">お届け先</th>
+            <th className="border px-4 py-2">商品名</th>
+            <th className="border px-4 py-2">価格</th>
+            <th className="border px-4 py-2">購入日時</th>
+            <th className="border px-4 py-2">発送状況</th>
+          </tr>
+        </thead>
+        {orderList.map((order: Order) => {
+          return (
+            <tbody key={order.id}>
+              <tr>
+                <td className="border px-2 py-1">{order.id}</td>
+                <td className="border px-2 py-1">{order.userName}</td>
+                <td className="border px-2 py-1">{order.address}</td>
+                <td className="border px-2 py-1">{order.productName}</td>
+                <td className="border px-2 py-1">¥{order.price.totalPrice}</td>
+                <td className="border px-2 py-1">{order.date}</td>
+                <td className="border px-2 py-1 text-center">
+                  {order.sent ? (
+                    "発送済み"
+                  ) : (
+                    <>
+                      未発送
+                      <input
+                        className="ml-2 "
+                        type="checkbox"
+                        value={order.id}
+                        onChange={handleChange}
+                        checked={undispatchedList.includes(order.id)}
+                      />
+                    </>
+                  )}
+                </td>
+              </tr>
+            </tbody>
+          );
+        })}
+      </table>
+    </div>
   );
 };
