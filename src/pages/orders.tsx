@@ -17,6 +17,7 @@ type Props = {
 const Orders: NextPage<Props> = ({ admin, loading }) => {
   const [orderList, setOrderList] = useState<Order[] | null>(null);
   const [undispatchedList, setUndispatchedList] = useState<string[]>([]);
+  const [open, setOpen] = useState<boolean>(false);
 
   const router = useRouter();
   useEffect(() => {
@@ -53,14 +54,17 @@ const Orders: NextPage<Props> = ({ admin, loading }) => {
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
-      <div className="h-full md:grid md:grid-cols-6">
+      <div className="h-full lg:grid lg:grid-cols-6">
         <SearchOrders
+          open={open}
+          setOpen={setOpen}
           orderList={orderList}
           setOrderList={setOrderList}
           undispatchedList={undispatchedList}
           setUndispatchedList={setUndispatchedList}
         />
         <OrdersTable
+          setOpen={setOpen}
           orderList={orderList}
           undispatchedList={undispatchedList}
           setUndispatchedList={setUndispatchedList}
