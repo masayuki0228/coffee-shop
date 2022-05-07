@@ -19,7 +19,7 @@ export const AdminHeader: FC<{ admin: User }> = ({ admin }) => {
     router.push("/");
   };
 
-  const [open, setOpen] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
 
   return (
     <div className="bg-white">
@@ -50,7 +50,10 @@ export const AdminHeader: FC<{ admin: User }> = ({ admin }) => {
                 <div className="space-y-6 border-t border-gray-200 py-6 px-4">
                   {NAV_ITEMS.map((page) => (
                     <Link key={page.label} href={page.href}>
-                      <a className="block p-2 text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500">
+                      <a
+                        className="block p-2 text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500"
+                        onClick={() => setOpen(false)}
+                      >
                         {page.label}
                       </a>
                     </Link>
