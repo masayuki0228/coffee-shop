@@ -1,5 +1,13 @@
-import { Popover } from "@headlessui/react";
-import { ComponentProps, Dispatch, FC, SetStateAction } from "react";
+import { Dialog, Popover, Transition } from "@headlessui/react";
+import { DotsCircleHorizontalIcon, XIcon } from "@heroicons/react/outline";
+import {
+  ComponentProps,
+  Dispatch,
+  FC,
+  Fragment,
+  SetStateAction,
+  useState,
+} from "react";
 import { Order } from "src/types/order";
 
 type Props = {
@@ -11,6 +19,8 @@ type Props = {
 
 export const OrdersTable: FC<Props> = (props) => {
   const { orderList, undispatchedList, setUndispatchedList, setOpen } = props;
+  const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [modalOrder, setModalOrder] = useState<Order | null>();
 
   const handleChange: ComponentProps<"input">["onChange"] = (e) => {
     if (undispatchedList.includes(e.target.value)) {
@@ -47,9 +57,18 @@ export const OrdersTable: FC<Props> = (props) => {
               key={order.id}
               className="flex items-center justify-between border-b py-4 pl-4 pr-6"
             >
-              <div>
-                <p className="px-2 py-1 md:px-6 ">{order.productName}</p>
-                <p className="px-2 py-1 md:px-6 ">{order.date}</p>
+              <div className="flex">
+                <DotsCircleHorizontalIcon
+                  className="my-auto h-6 w-6"
+                  onClick={() => {
+                    setModalOrder(order);
+                    setModalOpen(true);
+                  }}
+                />
+                <div>
+                  <p className="px-2 py-1 md:px-6">{order.productName}</p>
+                  <p className="px-2 py-1 md:px-6">{order.date}</p>
+                </div>
               </div>
               {order.sent ? (
                 "発送済み"
@@ -69,6 +88,57 @@ export const OrdersTable: FC<Props> = (props) => {
           );
         })}
       </div>
+      <Transition.Root show={modalOpen} as={Fragment}>
+        <Dialog
+          as="div"
+          className="relative z-40 lg:hidden"
+          onClose={() => setModalOpen(false)}
+        >
+          <div className="fixed inset-0 z-40 flex">
+            <Transition.Child
+              as={Fragment}
+              enter="transition ease-in-out duration-300 transform"
+              enterFrom="translate-y-full"
+              enterTo="-translate-y-0"
+              leave="transition ease-in-out duration-300 transform"
+              leaveFrom="-translate-y-0"
+              leaveTo="translate-y-full"
+            >
+              <Dialog.Panel className="mx-auto flex w-full flex-col bg-white">
+                <div className="grid h-20 grid-cols-3 border-y">
+                  <p className="col-start-2 m-auto p-3 font-semibold">
+                    注文詳細
+                  </p>
+                  <button
+                    className="col-start-3 my-4 mr-5 justify-self-end px-3"
+                    onClick={() => {
+                      setModalOrder(null);
+                      setModalOpen(false);
+                    }}
+                  >
+                    <XIcon className="h-6 w-6" />
+                  </button>
+                </div>
+                <div className="h-full bg-gray-100 p-8">
+                  <p className="px-2 py-1">注文Id : {modalOrder?.id}</p>
+                  <p className="px-2 py-1">お名前 : {modalOrder?.userName}</p>
+                  <p className="px-2 py-1">お届け先 : {modalOrder?.address}</p>
+                  <p className="px-2 py-1">
+                    商品名 : {modalOrder?.productName}
+                  </p>
+                  <p className="px-2 py-1">
+                    価格 : ¥{modalOrder?.price.totalPrice}
+                  </p>
+                  <p className="px-2 py-1">購入日時 : {modalOrder?.date}</p>
+                  <p className="px-2 py-1">
+                    発送状況 : {modalOrder?.sent ? "発送済み" : "未発送"}
+                  </p>
+                </div>
+              </Dialog.Panel>
+            </Transition.Child>
+          </div>
+        </Dialog>
+      </Transition.Root>
       <Popover.Group className="hidden lg:block">
         <table className="m-6 h-fit overflow-x-auto whitespace-nowrap">
           <thead>
