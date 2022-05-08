@@ -135,7 +135,7 @@ export const SearchOrders: FC<Props> = (props) => {
     <>
       {/* ここから */}
       <Transition.Root show={open} as={Fragment}>
-        <Dialog as="div" className="relative z-40 lg:hidden " onClose={setOpen}>
+        <Dialog as="div" className="relative z-40 lg:hidden" onClose={setOpen}>
           <div className="fixed inset-0 z-40 flex">
             <Transition.Child
               as={Fragment}
