@@ -40,7 +40,7 @@ const Login: FC<Props> = ({ admin }) => {
 
   useEffect(() => {
     if (admin) {
-      router.push("/");
+      router.push("/orders");
     }
   }, [admin, router]);
 
