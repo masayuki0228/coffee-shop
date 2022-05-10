@@ -2,7 +2,7 @@ import React, { FC } from "react";
 import Link from "next/link";
 import { Fragment } from "react";
 import { Dialog, Transition } from "@headlessui/react";
-import { XIcon } from "@heroicons/react/outline";
+import { ExternalLinkIcon, XIcon } from "@heroicons/react/outline";
 import { NAV_ITEMS } from "src/components/adminHeader";
 
 type Props = {
@@ -39,10 +39,19 @@ export const AdminHeaderSideBar: FC<Props> = (props) => {
                 </div>
 
                 <div className="space-y-6 border-t border-gray-200 py-6 px-4">
+                <a
+                  className="flex items-center text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500"
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ショップを見る
+                  <ExternalLinkIcon className="h-5 w-5 ml-1" aria-hidden="true" />
+                </a>
                   {NAV_ITEMS.map((page) => (
                     <Link key={page.label} href={page.href}>
                       <a
-                        className="block p-2 text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500"
+                        className="block py-2 px-1 text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500"
                         onClick={() => setOpen(false)}
                       >
                         {page.label}

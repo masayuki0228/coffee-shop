@@ -5,13 +5,10 @@ import { auth } from "src/firebase";
 import { useRouter } from "next/router";
 import { useState } from "react";
 import { Popover } from "@headlessui/react";
-import { MenuIcon } from "@heroicons/react/outline";
+import { ExternalLinkIcon, MenuIcon } from "@heroicons/react/outline";
 import { AdminHeaderSideBar } from "src/components/mobileUI/adminHeaderSideBar";
 
-export const NAV_ITEMS = [
-  { href: "/", label: "Coffee Shop" },
-  { href: "/orders", label: "Orders" },
-];
+export const NAV_ITEMS = [{ href: "/orders", label: "Orders" }];
 
 export const AdminHeader: FC<{ admin: User }> = ({ admin }) => {
   const router = useRouter();
@@ -37,6 +34,15 @@ export const AdminHeader: FC<{ admin: User }> = ({ admin }) => {
             </button>
             <Popover.Group className="hidden lg:ml-8 lg:block lg:self-stretch">
               <div className="flex h-full space-x-8">
+                <a
+                  className="flex items-center text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500"
+                  href="/"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  ショップを見る
+                  <ExternalLinkIcon className="h-5 w-5 ml-1" aria-hidden="true" />
+                </a>
                 {NAV_ITEMS.map((page) => (
                   <Link key={page.label} href={page.href}>
                     <a className="flex items-center text-xl hover:text-blue-500 focus:text-blue-500 active:text-blue-500">
