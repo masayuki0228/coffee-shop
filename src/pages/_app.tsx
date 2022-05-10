@@ -3,8 +3,6 @@ import type { AppProps } from "next/app";
 import { useEffect, useState } from "react";
 import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "src/firebase";
-import { Header } from "src/components/header";
-import { AdminHeader } from "src/components/adminHeader";
 
 function MyApp({ Component, pageProps }: AppProps) {
   const [admin, setAdmin] = useState<User | null>();
@@ -18,8 +16,13 @@ function MyApp({ Component, pageProps }: AppProps) {
 
   return (
     <div className="h-screen">
-      {admin ? <AdminHeader admin={admin} /> : <Header />}
-      <Component {...pageProps} admin={admin} setAdmin={setAdmin} loading={loading} setLoading={setLoading}/>
+      <Component
+        {...pageProps}
+        admin={admin}
+        setAdmin={setAdmin}
+        loading={loading}
+        setLoading={setLoading}
+      />
     </div>
   );
 }
