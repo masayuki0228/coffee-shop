@@ -10,6 +10,7 @@ import { useCallback, useState } from "react";
 import { SubmitHandler, useForm } from "react-hook-form";
 import Head from "next/head";
 import dayjs from "dayjs";
+import { Header } from "src/components/header";
 
 type Inputs = {
   userName: string;
@@ -59,6 +60,7 @@ const ProductId: NextPage<Props> = (props) => {
       <Head>
         <title>【Coffee Shop】 商品詳細</title>
       </Head>
+      <Header />
       <main className="flex w-full items-center bg-white p-10">
         <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
           <div className="flex flex-col justify-start">

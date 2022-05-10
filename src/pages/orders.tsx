@@ -8,6 +8,8 @@ import { useEffect, useState } from "react";
 import { SearchOrders } from "src/components/searchOrders";
 import { User } from "firebase/auth";
 import { useRouter } from "next/router";
+import { AdminHeader } from "src/components/adminHeader";
+import { Header } from "src/components/header";
 
 type Props = {
   admin: User | null;
@@ -54,6 +56,7 @@ const Orders: NextPage<Props> = ({ admin, loading }) => {
       <Head>
         <title>【Coffee Shop】 注文一覧</title>
       </Head>
+      {admin ? <AdminHeader admin={admin} /> : <Header />}
       <div className="h-full lg:grid lg:grid-cols-6">
         <SearchOrders
           open={open}
